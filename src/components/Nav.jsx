@@ -4,7 +4,7 @@ const Nav = () => {
   return (
     <>
         <aside id="sidebar" className="sidebar bg-white shadow-lg fixed h-screen overflow-y-auto">
-            <div className="flex items-center justify-between px-4 py-2 border-b">
+            <div className="flex items-center justify-between px-4 border-b">
                 <div className="flex items-center space-x-3">
                     <img src="img/logo2.png" alt="Logo" className="w-48 h-32" />
 
