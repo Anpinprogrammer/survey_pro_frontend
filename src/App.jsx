@@ -1,26 +1,30 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-//Layouts
-import Authenticated from "./layout/Authenticated"
+// Layouts
+import Authenticated from "./layout/Authenticated";
 
-//Paginas
-import Dashboard from "./pages/Dashboard"
+// Páginas
+import Dashboard from "./pages/Dashboard";
+import LoginRegisterPage from "./pages/LoginRegisterPage";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
         <Routes>
 
-          {/**Rutas Usuario Autenticado */}
-          <Route path="/" element={<Authenticated />} >
+          {/** Ruta pública de Login/Registro */}
+          <Route path="/login" element={<LoginRegisterPage />} />
+
+          {/** Rutas para usuario autenticado */}
+          <Route path="/" element={<Authenticated />}>
             <Route index element={<Dashboard />} />
           </Route>
+
         </Routes>
       </BrowserRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
