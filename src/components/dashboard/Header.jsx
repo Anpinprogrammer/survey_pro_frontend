@@ -14,8 +14,8 @@ const Header = () => {
                     <p className="text-gray-500">Bienvenido a tu panel de encuestas</p>
                 </div>
                 <div className="mt-4 md:mt-0">
-                    <button id="new-survey-btn" className="btn-primary px-4 py-2 rounded-md shadow-sm flex items-center" onClick={toggleOpen}>
-                    <i className="fas fa-plus-circle mr-2"></i> Nueva encuesta
+                    <button id="new-survey-btn" className="btn-primary px-4 py-2 rounded-md shadow-sm flex items-center cursor-pointer" onClick={toggleOpen}>
+                        <i className="fas fa-plus-circle mr-2"></i> Nueva encuesta
                     </button>
                 </div>
             </div>
