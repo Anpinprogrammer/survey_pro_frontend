@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { v4 as uuidv4 } from 'uuid'
 
 const Step1 = ({ onComplete, initialData }) => {
 
    const [formData, setFormData] = useState(() => ({
+      surveyId: initialData?.surveyId || uuidv4(),
       title: initialData?.title || "",
       description: initialData?.description || "",
       tipo: initialData?.tipo || "",

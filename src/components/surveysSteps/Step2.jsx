@@ -3,14 +3,13 @@ import ModalQuestions from './ModalQuestions'
 import { useUIStore } from '../../store/uiStore'
 
 const Step2 = ({ onComplete, onBack, initialData }) => {
-  console.log(initialData)
+  
 
   const { isModalOpen, toggleModal, openModal, closeModal } = useUIStore()
-  const [questions, setQuestions] = useState([])
+  const [questions, setQuestions] = useState(initialData || [])
   const [alertQeustions, setAlertQuestions] = useState("")
 
   const handleSubmit = () => {
-    console.log('Enviando step 2...')
     if(!questions.length){
       setAlertQuestions('* Debe agregar las preguntas de la encuesta para avanzar')
       return
@@ -50,7 +49,7 @@ const Step2 = ({ onComplete, onBack, initialData }) => {
                     <div>
                       <h3 className="font-medium text-gray-900">
                         {question.questionText}
-                        {question.isRequired && <span class="ml-2 text-xs font-semibold bg-red-100 text-red-800 px-2 py-0.5 rounded">Obligatoria</span> }
+                        {question.isRequired && <span className="ml-2 text-xs font-semibold bg-red-100 text-red-800 px-2 py-0.5 rounded">Obligatoria</span> }
                       </h3>
                       {question.questionDescription ? `<p className="text-sm text-gray-500">${question.questionDescription}</p>` : ''}
                     </div>

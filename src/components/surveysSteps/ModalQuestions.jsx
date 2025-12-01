@@ -88,7 +88,6 @@ const ModalQuestions = ({ onClose, setQuestions, questions }) => {
       return
     }
     setAlertQuestion("")
-    console.log('Agregando pregunta...')
     setQuestions([
       ...questions,
       question

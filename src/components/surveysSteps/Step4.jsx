@@ -1,6 +1,12 @@
-import React from 'react'
+import { useState } from 'react'
+import { formatType, formatDistributionMethod } from '../../helpers'
+import { formatQuestions } from './QuestionType'
 
 const Step4 = ({ onComplete, onBack, surveyData }) => {
+  const [questions, setQuestions] = useState(surveyData?.questions || [])
+  const [isLoading, setIsloading] = useState(false)
+  const [mandatory, setMandatory] = useState(surveyData?.questions ? surveyData.questions.filter(question => question.isRequired === true) : [])
+
   return (
     <>
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-6" id="step-4">
@@ -25,27 +31,27 @@ const Step4 = ({ onComplete, onBack, surveyData }) => {
             <dl className="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
               <div>
                 <dt className="text-sm font-medium text-gray-500">Título</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-title">Encuesta de satisfacción del cliente Q1</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-title">{surveyData.basicInfo.title}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">Tipo</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-type">Cliente (Externa)</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-type">{formatType(surveyData.basicInfo.tipo)} </dd>
               </div>
               <div className="sm:col-span-2">
                 <dt className="text-sm font-medium text-gray-500">Descripción</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-description">Evaluación de satisfacción trimestral para clientes activos.</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-description">{surveyData.basicInfo.description}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">Preguntas</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-questions">12 preguntas (3 obligatorias)</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-questions">{surveyData.questions.length} preguntas ( {mandatory.length} obligatorias)</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">Fecha de expiración</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-expiry">15/03/2025</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-expiry">{surveyData.basicInfo.fecha}</dd>
               </div>
               <div>
                 <dt className="text-sm font-medium text-gray-500">Distribución</dt>
-                <dd className="mt-1 text-sm text-gray-900" id="preview-distribution">Envío por correo a 54 destinatarios</dd>
+                <dd className="mt-1 text-sm text-gray-900" id="preview-distribution">{formatDistributionMethod(surveyData.respondents.distributionMethod)}</dd>
               </div>
             </dl>
           </div>
@@ -63,10 +69,52 @@ const Step4 = ({ onComplete, onBack, surveyData }) => {
             </div>
             <div className="bg-white p-4 h-96 overflow-y-auto" id="survey-preview-container">
               {/**Survey preview will be rendered here*/}
-              <div className="text-center p-8 text-gray-500">
-                <i className="fas fa-eye fa-3x mb-2"></i>
-                <p>Cargando vista previa...</p>
-              </div>
+              {isLoading && (
+                  <div className="text-center p-8 text-gray-500">
+                    <i className="fas fa-eye fa-3x mb-2"></i>
+                    <p>Cargando vista previa...</p>
+                  </div>
+              )}
+              {questions.length ? (
+                   <div className="max-w-2xl mx-auto">
+                  <h2 className="text-xl font-bold mb-1">{surveyData.basicInfo.title}</h2>
+                  <p className="text-gray-500 mb-6">{surveyData.basicInfo.description}</p>
+                  {
+                    questions.map((question, index) => {
+                        const { questionType, questionText, isRequired } = question
+                        return (
+                          <div key={index}>
+                            {formatQuestions(questionType, questionText, isRequired, index )}
+                          </div>
+                        )
+                      })
+                  }
+                    <div className="mt-6 flex justify-end">
+                      <button className="btn-primary px-4 py-2 rounded-md shadow-sm">
+                        Enviar respuestas
+                      </button>
+                    </div>
+                  </div>
+              )
+               
+                
+                
+              : (
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                  <div className="flex">
+                    <div className="shrink-0">
+                      <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-yellow-700">
+                        Aún no has añadido preguntas a tu encuesta. Regresa al paso 2 para añadir preguntas.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )
+              }
+              
             </div>
           </div>
         </div>
@@ -77,10 +125,10 @@ const Step4 = ({ onComplete, onBack, surveyData }) => {
           </button>
           
           <div className="flex space-x-4">
-            <button id="save-draft" class="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+            <button id="save-draft" className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
               Guardar como borrador
             </button>
-            <button id="publish-survey" className="btn-accent px-6 py-2 rounded-md shadow-sm flex items-center">
+            <button id="publish-survey" className="btn-accent px-6 py-2 rounded-md shadow-sm flex items-center" onClick={() => onComplete({surveyData})}>
               <i className="fas fa-paper-plane mr-2"></i> Publicar encuesta
             </button>
           </div>

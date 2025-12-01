@@ -32,3 +32,44 @@ export const iconText = (type) => {
     
     return { typeIcon, typeText }  
 }
+
+export const formatType = (type) => {
+  let typeText = '';
+      switch (type) {
+        case 'internal':
+          typeText = 'Interna (empleados)';
+          break;
+        case 'external':
+          typeText = 'Externa (clientes)';
+          break;
+        case 'mixed':
+          typeText = 'Mixta';
+          break;
+        default:
+          typeText = 'No especificado';
+      }
+  return typeText
+}
+
+export const formatDistributionMethod = (distributionMethod) => {
+  let distributionText = '';
+      
+      switch (distributionMethod) {
+        case 'link':
+          distributionText = 'Enlace público';
+          break;
+        case 'email':
+          distributionText = 'Envío por correo electrónico';
+          break;
+        case 'specific':
+          distributionText = 'Usuarios específicos (2 seleccionados)';
+          break;
+        case 'department':
+          distributionText = 'Por departamento';
+          break;
+        default:
+          distributionText = 'No especificado';
+      }
+
+  return distributionText
+}

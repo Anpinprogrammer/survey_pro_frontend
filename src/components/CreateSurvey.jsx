@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Step1 from './surveysSteps/Step1'
 import Step2 from './surveysSteps/Step2'
 import Step3 from './surveysSteps/Step3'
@@ -8,20 +9,17 @@ import { useUIStore } from '../store/uiStore.js'
 
 const CreateSurvey = () => {
 
+    const navigate = useNavigate()
     const { toggleOpen } = useUIStore()
     const [currentStep, setCurrentStep] = useState(1)
     const [surveyData, setSurveyData] = useState({
         basicInfo: {},
         questions: [],
-        respondents: [],
+        respondents: {},
         preview: {}
     })
 
     const totalSteps = 4
-
-    useEffect(() => {
-        console.log(surveyData)
-    }, [surveyData])
 
     const handleStepComplete = (stepData) => {
         // Actualizar los datos de la encuesta según el paso
@@ -37,6 +35,10 @@ const CreateSurvey = () => {
             // Si completamos el paso 4, mostrar success
             setCurrentStep(5)
         }
+    }
+
+    const handleViewSurvey = (surveyId) => {
+        navigate(`/auth/survey/${surveyId}`)
     }
 
     const handleBack = () => {
@@ -117,6 +119,7 @@ const CreateSurvey = () => {
                         onComplete={handleStepComplete}
                         onBack={handleBack}
                         initialData={surveyData.respondents}
+                        id={surveyData.basicInfo.surveyId}
                     />
                 )}
 
@@ -129,7 +132,11 @@ const CreateSurvey = () => {
                 )}
 
                 {currentStep === 5 && (
-                    <Success_Message surveyData={surveyData} />
+                    <Success_Message    
+                        surveyData={surveyData} 
+                        onBackToDashboard={toggleOpen}
+                        onViewSurvey={handleViewSurvey}
+                    />
                 )}
             </div>
         </>
