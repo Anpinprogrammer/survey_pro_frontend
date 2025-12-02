@@ -1,13 +1,29 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = () => {
+
+    const navigate = useNavigate()
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [alert, setAlert] = useState("")
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if([email, password].includes("")) {
+          setAlert('Todos los campos son obligatorios')
+          return
+        }
+        setAlert("")
+        navigate('/auth')
+    }
+
   return (
     <>
         <section className="auth-card">
         <h1 className="auth-title">LOGIN</h1>
 
-        <form className="auth-form">
+        <form className="auth-form" onSubmit={handleSubmit}>
           <label className="auth-label">
             Email
             <input
@@ -15,6 +31,8 @@ const Login = () => {
               name="email"
               placeholder="ejemplo@mail.com"
               className="auth-input"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
           </label>
 
@@ -25,8 +43,14 @@ const Login = () => {
               name="password"
               placeholder="********"
               className="auth-input"
+              value={password}
+              onChange={ e => setPassword(e.target.value)}
             />
           </label>
+
+          { alert &&
+            <p className='text-red-600'>{alert}</p>
+          }
 
           <button type="submit" className="auth-button">
             Entrar

@@ -1,6 +1,14 @@
-import React from 'react'
+import { Link, useLocation, useNavigate  } from "react-router-dom"
 
 const Nav = () => {
+
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        navigate('/')
+    }
+
   return (
     <>
         {/**Mobile menu toggle  */}
@@ -12,7 +20,7 @@ const Nav = () => {
         <aside id="sidebar" className="sidebar bg-white shadow-lg fixed h-screen overflow-y-auto">
             <div className="flex items-center justify-between px-4 border-b">
                 <div className="flex items-center space-x-3">
-                    <img src="img/logo2.png" alt="Logo" className="w-48 h-32" />
+                    <img src="/img/logo2.png" alt="Logo" className="w-48 h-32" />
 
                     {/**
                      * <span className="logo-text font-bold text-xl text-gray-800">SurveyPro</span>
@@ -27,16 +35,16 @@ const Nav = () => {
             <nav className="py-4">
                 <ul>
                     <li>
-                        <a href="javascript:void(0)" className="sidebar-item active flex items-center px-4 py-3 hover:bg-gray-100">
+                        <Link to={'/auth'} className={`${location.pathname === '/auth' && 'active'} sidebar-item flex items-center px-4 py-3 hover:bg-gray-100`}>
                             <i className="fas fa-tachometer-alt w-6"></i>
                             <span className="sidebar-item-text ml-3">Dashboard</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" className="sidebar-item flex items-center px-4 py-3 hover:bg-gray-100">
+                        <Link to={'/auth/surveys'} className={`${location.pathname === '/auth/surveys' && 'active'} sidebar-item flex items-center px-4 py-3 hover:bg-gray-100`}>
                             <i className="fas fa-poll w-6"></i>
                             <span className="sidebar-item-text ml-3">Encuestas</span>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a href="javascript:void(0)" className="sidebar-item flex items-center px-4 py-3 hover:bg-gray-100">
@@ -69,7 +77,7 @@ const Nav = () => {
                         <p className="text-sm text-gray-500" id="user-role">Administrador</p>
                     </div>
                 </div>
-                <button className="mt-3 w-full flex items-center justify-center px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200">
+                <button className="mt-3 w-full flex items-center justify-center px-4 py-2 text-sm text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200" onClick={handleLogout}>
                     <i className="fas fa-sign-out-alt mr-2"></i> Cerrar sesión
                 </button>
             </div>

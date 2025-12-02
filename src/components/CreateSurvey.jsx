@@ -38,7 +38,7 @@ const CreateSurvey = () => {
     }
 
     const handleViewSurvey = (surveyId) => {
-        navigate(`/auth/survey/${surveyId}`)
+        navigate(`/auth/surveys/${surveyId}`)
     }
 
     const handleBack = () => {

@@ -7,6 +7,49 @@ const Step4 = ({ onComplete, onBack, surveyData }) => {
   const [isLoading, setIsloading] = useState(false)
   const [mandatory, setMandatory] = useState(surveyData?.questions ? surveyData.questions.filter(question => question.isRequired === true) : [])
 
+  const saveSurveyToLocalStorage = (survey) => {
+    try {
+      // Obtener encuestas existentes
+      const existingSurveys = JSON.parse(localStorage.getItem('surveys') || '[]');
+      
+      // Verificar si la encuesta ya existe
+      const surveyIndex = existingSurveys.findIndex(
+        s => s.basicInfo.surveyId === survey.basicInfo.surveyId
+      );
+
+      if (surveyIndex !== -1) {
+        // Actualizar encuesta existente
+        existingSurveys[surveyIndex] = {
+          ...survey,
+          basicInfo: {
+            ...survey.basicInfo,
+            lastModified: Date.now()
+          }
+        };
+      } else {
+        // Agregar nueva encuesta con estado inicial
+        existingSurveys.push({
+          ...survey,
+          status: 'activa',
+          createdAt: Date.now(),
+          responses: 0
+        });
+      }
+
+      // Guardar en localStorage
+      localStorage.setItem('surveys', JSON.stringify(existingSurveys));
+      return true;
+    } catch (error) {
+      console.error('Error al guardar la encuesta:', error);
+      return false;
+    }
+  };
+
+  const handlePublishSurvey = () => {
+    saveSurveyToLocalStorage(surveyData);
+    onComplete({surveyData})
+  }
+
   return (
     <>
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6 mb-6" id="step-4">
@@ -128,7 +171,7 @@ const Step4 = ({ onComplete, onBack, surveyData }) => {
             <button id="save-draft" className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
               Guardar como borrador
             </button>
-            <button id="publish-survey" className="btn-accent px-6 py-2 rounded-md shadow-sm flex items-center" onClick={() => onComplete({surveyData})}>
+            <button id="publish-survey" className="btn-accent px-6 py-2 rounded-md shadow-sm flex items-center" onClick={handlePublishSurvey}>
               <i className="fas fa-paper-plane mr-2"></i> Publicar encuesta
             </button>
           </div>

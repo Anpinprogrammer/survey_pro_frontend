@@ -74,14 +74,14 @@ const Success_Message = ({ surveyData, onBackToDashboard, onViewSurvey }) => {
           <button 
             id="view-survey" 
             className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-            onClick={handleViewSurvey}
+            onClick={() => onViewSurvey(surveyData.basicInfo.surveyId)}
           >
             Ver encuesta
           </button>
           <button 
             id="back-to-dashboard-after-publish" 
             className="btn-primary px-4 py-2 rounded-md shadow-sm"
-            onClick={handleBackToDashboard}
+            onClick={onBackToDashboard}
           >
             Volver al dashboard
           </button>

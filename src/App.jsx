@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import ForgotPassword from "./pages/ForgotPassword"
+import SurveysList from "./pages/SurveysList"
+import Survey from "./pages/Survey"
 
 function App() {
 
@@ -24,6 +26,8 @@ function App() {
           {/**Rutas Usuario Autenticado */}
           <Route path="/auth" element={<Authenticated />} >
             <Route index element={<Dashboard />} />
+            <Route path="surveys" element={<SurveysList />} />
+            <Route path="surveys/:surveyId" element={<Survey />} />
           </Route>
         </Routes>
       </BrowserRouter>

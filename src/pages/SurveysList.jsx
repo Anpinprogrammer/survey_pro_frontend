@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import CreateSurvey from '../components/CreateSurvey'
+
+
 
 const SurveysList = () => {
   const [surveys, setSurveys] = useState([]);
@@ -9,6 +12,7 @@ const SurveysList = () => {
   const [sortBy, setSortBy] = useState('recientes');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [surveyToDelete, setSurveyToDelete] = useState(null);
+  const [isOpenCreate, setIsOpenCreate] = useState(false)
 
   // Cargar encuestas del localStorage
   useEffect(() => {
@@ -19,6 +23,10 @@ const SurveysList = () => {
   useEffect(() => {
     applyFilters();
   }, [surveys, searchTerm, filterStatus, filterType, sortBy]);
+
+  const handleCreateSurvey = () => {
+    setIsOpenCreate(true)
+  }
 
   const loadSurveys = () => {
     try {
@@ -158,7 +166,8 @@ const SurveysList = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <>
+    <div className={`${isOpenCreate ? 'hidden' : 'block' } min-h-screen bg-gray-50 p-6`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -284,7 +293,10 @@ const SurveysList = () => {
                   ? 'Intenta ajustar los filtros de búsqueda'
                   : 'Comienza creando tu primera encuesta'}
               </p>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+              <button 
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                onClick={handleCreateSurvey}
+              >
                 <i className="fas fa-plus mr-2"></i>
                 Nueva Encuesta
               </button>
@@ -334,7 +346,7 @@ const SurveysList = () => {
                   {/* Acciones */}
                   <div className="flex items-center gap-2 ml-4">
                     <button
-                      onClick={() => window.open(`/survey/${survey.basicInfo.surveyId}`, '_blank')}
+                      onClick={() => window.open(`/auth/surveys/${survey.basicInfo.surveyId}`, '_blank')}
                       className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
                       title="Ver encuesta"
                     >
@@ -426,6 +438,13 @@ const SurveysList = () => {
         </div>
       )}
     </div>
+
+    {/**Crear las surveys */}
+    <div className={` ${isOpenCreate ? 'block' : 'hidden'} `}>
+      <CreateSurvey />
+    </div>
+
+    </>
   );
 };
 

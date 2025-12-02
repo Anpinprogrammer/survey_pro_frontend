@@ -90,7 +90,7 @@ const PublicLayout = () => {
           </div>
         </main>
 
-        {/* Footer */}
+        {/* Footer 
         <footer className="p-6 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
           <div className="flex items-center justify-center gap-6 mb-3">
             <a href="#" className="hover:text-blue-600 transition-colors">Términos</a>
@@ -101,6 +101,7 @@ const PublicLayout = () => {
           </div>
           <p>© 2024 Survey Master. Todos los derechos reservados.</p>
         </footer>
+        */}
       </div>
     </div>
   );
